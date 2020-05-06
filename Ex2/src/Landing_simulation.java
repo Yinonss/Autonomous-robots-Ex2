@@ -13,7 +13,7 @@ public class Landing_simulation {
 	private double seconds;
 	
 	public Landing_simulation(Spacecraft _beresheet , Moon _moon ) {
-		//TODO Maybe we should make a super class name planet so we can test other planets.
+		
 		this.beresheet = _beresheet;
 		this.moon = _moon;
 		this.altitude = 30000;
@@ -28,7 +28,7 @@ public class Landing_simulation {
 			  }
 			};
 	}
-	/**This algorithm simulates the landing. We use PID control algorithm to make sure the spacecraft
+	/**This algorithm simulates the landing process. We use PID control algorithm to make sure the spacecraft
 	 * will reach the moon's surface safely.
 	 * 
 	 * First we need to turn the main engine opposite to the falling direction.
@@ -37,7 +37,7 @@ public class Landing_simulation {
 	 * 
 	 * We assume that the spaceship is beginning the landing process with 90 degrees to the surface.
 	 * 
-	 * It will be slow down to 0 m/s horizontal velocity  and then it will free fall from rational height.
+	 * It will be slow down to 0 m/s horizontal velocity  and then it will free falling from rational height.
 	 * 
 	 */
 	public void PID_algorithm() {
