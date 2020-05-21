@@ -38,8 +38,8 @@ public class Landing_simulation {
 	double engine_power = 0.8; // [0,1] engine use
 	double angle =35;
 	boolean final_maneuver = false;
-	System.out.println("Time:          Alt :                HV:               VV:                Angle:                      Mass:                Engine power:");
-	System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+beresheet.getCurrent_weight()/moon.GRAVITY+"  ,  "+engine_power);
+	System.out.println("Time:          Alt :                HV:               VV:                Angle:                      Mass:                Engine power:               Fuel:");
+	System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+beresheet.getCurrent_weight()/moon.GRAVITY+"  ,  "+engine_power+"  ,  " + beresheet.getGas_tank());
 	
 	while(altitude > 0) {
 		timer_task.run();
@@ -151,17 +151,17 @@ public class Landing_simulation {
 		
 		//Output :
 		if(seconds%10 == 0) {
-			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power);
+			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power + "  ,  " + beresheet.getGas_tank());
 		    System.out.println();
 		}
 		if(altitude < 0) {
-			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power);
+			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power+"  ,  " + beresheet.getGas_tank());
 		    break;
 		}
 			synchronized(this) {
 		try {
 			// *If you wish to run the simulation faster please reduce the wait delay*
-			wait(1000);
+			wait(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
