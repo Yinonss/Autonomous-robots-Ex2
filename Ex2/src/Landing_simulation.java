@@ -38,9 +38,9 @@ public class Landing_simulation {
 	double engine_power = 0.8; // [0,1] engine use
 	double angle =35;
 	boolean final_maneuver = false;
-	System.out.println("Time:        Alt :        HV:        VV:      Angle:     Mass:       Engine power:");
+	System.out.println("Time:          Alt :                HV:               VV:                Angle:                      Mass:                Engine power:");
 	System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+beresheet.getCurrent_weight()/moon.GRAVITY+"  ,  "+engine_power);
-	//System.out.println("time[sec] : "+seconds+ " , alt : "+altitude + " , vv : "+beresheet.getVV()+" , vh : "+beresheet.getHV());
+	
 	while(altitude > 0) {
 		timer_task.run();
 	
@@ -66,7 +66,7 @@ public class Landing_simulation {
 		
 		// *acceleration*
 		double mass = moons_physics.calculate_mass(beresheet.getCurrent_weight()); // W = m * g         
-		double engine_acc =  moons_physics.calculate_acceleration(engine_force , mass);// F = m * a
+		double engine_acc =  moons_physics.calculate_acceleration(engine_force , mass);// a = f / m
 		double rad_angle = Math.toRadians(angle);
 
 		// Gravity force
@@ -101,11 +101,11 @@ public class Landing_simulation {
 		if(beresheet.getHV() < 2.5 && beresheet.getHV() > -2.5) {
 			angle = 90;
 			if(!final_maneuver)
-			   engine_power-=0.2;
+			   engine_power -= 0.2;
 			final_maneuver = true;
 	}
 		
-		
+		// So the engine won't push to hard on the vertical axis.
 		if(beresheet.getVV() < 0) {
 			engine_power -= 0.1;
 		}
@@ -113,9 +113,9 @@ public class Landing_simulation {
 		
 		
 		// We separate the landing process into three phases. 
-		//first - altitude above 1000m , second - below 1000m , third - below 100m
-		// we will maintain speed of 10-15 m/s
-		//phase 1
+		//first - reduce the horizontal speed to approximately  0 m/s , second - reduce altitude from 17000m , third - below 1500m
+		// we will maintain acceleration of 1.9 m/s^2 on the horizontal axis.
+		
 		if(beresheet.getHV() > 2.5 && angle != 90 && !empty_tank) {
 			if(acc_x < 1.9 &&  acc_y > 0 && engine_power < 1)
 				engine_power += 0.003;
@@ -151,20 +151,23 @@ public class Landing_simulation {
 		
 		//Output:
 		if(seconds%10 == 0) {
-			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+beresheet.getCurrent_weight()/moon.GRAVITY+"  ,  "+engine_power);
+			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power);
 		    System.out.println();
 		}
-		synchronized(this) {
+		if(altitude < 0) {
+			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power);
+		    break;
+		}
+			synchronized(this) {
 		try {
 			// *If you wish to run the simulation faster please reduce the wait delay*
-			wait(100);
+			wait(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}
 	}
-	System.out.println("time[sec] : "+seconds+ " , alt : "+altitude + " , vv : "+beresheet.getVV()+" , vh : "+beresheet.getHV());
+	
 	System.out.println("Mission complete");
 	timer_task.cancel();
 
