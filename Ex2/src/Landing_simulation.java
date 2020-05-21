@@ -161,7 +161,7 @@ public class Landing_simulation {
 			synchronized(this) {
 		try {
 			// *If you wish to run the simulation faster please reduce the wait delay*
-			wait(10);
+			wait(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
