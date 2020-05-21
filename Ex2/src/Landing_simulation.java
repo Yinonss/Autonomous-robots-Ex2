@@ -149,7 +149,7 @@ public class Landing_simulation {
 		
 
 		
-		//Output:
+		//Output :
 		if(seconds%10 == 0) {
 			System.out.println(seconds+"  ,  "+altitude+"  ,  "+beresheet.getHV() +"  ,  "+beresheet.getVV()+"  ,  "+angle+"  ,  "+mass+"  ,  "+engine_power);
 		    System.out.println();
