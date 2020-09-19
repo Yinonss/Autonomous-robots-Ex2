@@ -17,7 +17,7 @@ public class Spacecraft {
 	public static final double MAIN_BURN = 0.15; 
 	public static final double SECOND_BURN = 0.009;
 	public static final double TOTAL_BURN = MAIN_BURN + SECOND_BURN * 8;
-	private double gas_tank = 420;
+	private double gas_tank = 216;
 	
 	// Velocity:
 	private double vertical_velocity;
